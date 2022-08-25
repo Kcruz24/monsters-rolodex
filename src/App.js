@@ -19,19 +19,12 @@ class App extends Component {
 		// console.log('componentDidMount');
 		fetch('https://jsonplaceholder.typicode.com/users')
 			.then((response) => {
-				// console.log(response);
-
 				return response.json();
 			})
 			.then((users) =>
-				this.setState(
-					() => {
-						return { monsters: users };
-					},
-					() => {
-						// console.log(this.state);
-					}
-				)
+				this.setState(() => {
+					return { monsters: users };
+				})
 			);
 	}
 
@@ -63,9 +56,7 @@ class App extends Component {
 					onChange={onSearchChange}
 				></input>
 
-
-
-				<CardList monsters={filteredMonsters}/>
+				<CardList monsters={filteredMonsters} />
 			</div>
 		);
 	}
