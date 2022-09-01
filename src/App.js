@@ -8,12 +8,25 @@ import './App.css';
 const App = () => {
 	const [searchField, setSearchField] = useState(''); // [value, setValue]
 	const [monsters, setMonsters] = useState([]); // [value, setValue]
+	const [filteredMonsters, setFilteredMonsters] = useState(monsters);
 
-	console.log('render');
+	// Only runs when the function is mounted, because of the empty array
+	// in the second parameter.
+	useEffect(() => {
+		fetch('https://jsonplaceholder.typicode.com/users')
+			.then((response) => response.json())
+			.then((users) => setMonsters(users));
+	}, []);
 
-	fetch('https://jsonplaceholder.typicode.com/users')
-		.then((response) => response.json())
-		.then((users) => setMonsters(users));
+	useEffect(() => {
+		const newFilteredMonsters = monsters.filter((monster) => {
+			let lowerCaseMonster = monster.name.toLowerCase();
+
+			return lowerCaseMonster.includes(searchField);
+		});
+
+		setFilteredMonsters(newFilteredMonsters);
+	}, [monsters, searchField]);
 
 	const onSearchChange = (event) => {
 		const searchFieldString = event.target.value.toLowerCase();
@@ -31,7 +44,7 @@ const App = () => {
 				className="search-box"
 			/>
 
-			{/* <CardList monsters={filteredMonsters} /> */}
+			<CardList monsters={filteredMonsters} />
 		</div>
 	);
 };
