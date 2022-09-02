@@ -7,8 +7,11 @@ import './App.css';
 
 const App = () => {
 	const [searchField, setSearchField] = useState(''); // [value, setValue]
+	const [title, setTitle] = useState('');
 	const [monsters, setMonsters] = useState([]); // [value, setValue]
 	const [filteredMonsters, setFilteredMonsters] = useState(monsters);
+
+	console.log('Render')
 
 	// Only runs when the function is mounted, because of the empty array
 	// in the second parameter.
@@ -34,14 +37,26 @@ const App = () => {
 		setSearchField(searchFieldString);
 	};
 
+	const onTitleChange = (event) => {
+		const searchFieldString = event.target.value.toLowerCase();
+
+		setTitle(searchFieldString);
+	};
+
 	return (
 		<div className="App">
-			<h1 className="app-title">Monsters Rolodex</h1>
+			<h1 className="app-title">{ title }</h1>
 
 			<SearchBox
 				onChangeHandler={onSearchChange}
 				placeholder="search monsters"
 				className="search-box"
+			/>
+			<br />
+			<SearchBox
+				onChangeHandler={onTitleChange}
+				placeholder="set title"
+				className="title-search-box"
 			/>
 
 			<CardList monsters={filteredMonsters} />
